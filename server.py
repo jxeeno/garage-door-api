@@ -8,7 +8,7 @@ sem = threading.Semaphore()
 app = Flask(__name__)
 
 @app.route('/api/garage')
-def secplus():
+def secplusapi():
     args = request.args
     fixed = args.get("fixed", default=0, type=int)
     pin = args.get("pin", default=0, type=int)
@@ -66,7 +66,7 @@ def secplus():
 
 
 @app.route('/api/blinds')
-def blinds():
+def blindsapi():
     args = request.args
     state = args.get("state")
 
