@@ -1,5 +1,8 @@
+import threading
 from flask import Flask, request
 import subprocess
+
+sem = threading.Semaphore()
 
 app = Flask(__name__)
 
@@ -9,6 +12,8 @@ def secplus():
     fixed = args.get("fixed", default=0, type=int)
     pin = args.get("pin", default=0, type=int)
     rolling = args.get("rolling", default=0, type=int)
+
+    response = {}
 
     cmd = [
         "./openers",
@@ -22,7 +27,7 @@ def secplus():
     try:
         p = subprocess.run(cmd, capture_output=True, text=True)
 
-        return {
+        response = {
             "result": p.stdout,
             "error": p.stderr,
             "fixed": fixed,
@@ -31,7 +36,7 @@ def secplus():
             "cmd": cmd
         }
     except subprocess.CalledProcessError as e:
-        return {
+        response = {
             "error": e.output,
             "fixed": fixed,
             "pin": pin,
@@ -39,10 +44,13 @@ def secplus():
             "cmd": cmd
         }
     except Exception as e:
-        return {
+        response = {
             "error": str(e),
             "fixed": fixed,
             "pin": pin,
             "rolling": rolling,
             "cmd": cmd
         }
+
+    sem.release()
+    return response
