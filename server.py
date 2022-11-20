@@ -1,6 +1,7 @@
 import threading
 from flask import Flask, request
 import subprocess
+import blinds
 
 sem = threading.Semaphore()
 
@@ -55,6 +56,37 @@ def secplus():
             "pin": pin,
             "rolling": rolling,
             "cmd": cmd
+        }
+
+    if acquired:
+        sem.release()
+    
+    return response
+
+
+@app.route('/api/blinds')
+def secplus():
+    args = request.args
+    state = args.get("state")
+
+    response = {}
+    acquired = False
+
+    try:
+        sem.acquire()
+        acquired = True
+
+        blinds.transmit([state])
+
+        p = subprocess.run(cmd, capture_output=True, text=True)
+
+        response = {
+            "state": state,
+        }
+    except Exception as e:
+        response = {
+            "error": str(e),
+            "state": state,
         }
 
     if acquired:
