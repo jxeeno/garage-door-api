@@ -79,8 +79,6 @@ def blindsapi():
 
         blinds.transmit([state])
 
-        p = subprocess.run(cmd, capture_output=True, text=True)
-
         response = {
             "state": state,
         }
