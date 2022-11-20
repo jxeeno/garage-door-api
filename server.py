@@ -81,11 +81,13 @@ def blindsapi():
         o = blinds.transmit([state], pin)
 
         response = {
+            "pin": pin,
             "state": state,
             "output": o
         }
     except Exception as e:
         response = {
+            "pin": pin,
             "error": str(e),
             "state": state,
         }
