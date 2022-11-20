@@ -24,11 +24,11 @@ def secplus():
         f"--pin={pin}"
     ]
 
-    acquired = false
+    acquired = False
 
     try:
         sem.acquire()
-        acquired = true
+        acquired = True
 
         p = subprocess.run(cmd, capture_output=True, text=True)
 
