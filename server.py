@@ -24,7 +24,12 @@ def secplus():
         f"--pin={pin}"
     ]
 
+    acquired = false
+
     try:
+        sem.acquire()
+        acquired = true
+
         p = subprocess.run(cmd, capture_output=True, text=True)
 
         response = {
@@ -52,5 +57,7 @@ def secplus():
             "cmd": cmd
         }
 
-    sem.release()
+    if acquired:
+        sem.release()
+    
     return response
