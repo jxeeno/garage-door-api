@@ -13,6 +13,7 @@ def secplusapi():
     fixed = args.get("fixed", default=0, type=int)
     pin = args.get("pin", default=0, type=int)
     rolling = args.get("rolling", default=0, type=int)
+    repeats = args.get("repeats", default=12, type=int)
 
     response = {}
 
@@ -20,7 +21,7 @@ def secplusapi():
         "./openers",
         "secplus",
         "transmitv2",
-        "--repeats=12",
+        f"--repeats={repeats}",
         f"--rolling={rolling}",
         f"--fixed={fixed}",
         f"--pin={pin}"
