@@ -20,6 +20,7 @@ def secplus():
         "./openers",
         "secplus",
         "transmitv2",
+        "--repeats=12",
         f"--rolling={rolling}",
         f"--fixed={fixed}",
         f"--pin={pin}"
