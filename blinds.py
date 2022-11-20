@@ -37,7 +37,7 @@ def transmit(codes, transmit_pin):
     - short on + long gap  = 0
     '''
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(TRANSMIT_PIN, GPIO.OUT)
+    GPIO.setup(transmit_pin, GPIO.OUT)
     for code_name in codes:
         code = KNOWN_CODES[code_name]
         GPIO.output(transmit_pin, 0)
