@@ -78,10 +78,11 @@ def blindsapi():
         sem.acquire()
         acquired = True
 
-        blinds.transmit([state], pin)
+        o = blinds.transmit([state], pin)
 
         response = {
             "state": state,
+            "output": o
         }
     except Exception as e:
         response = {

@@ -36,11 +36,13 @@ def transmit(codes, transmit_pin):
     - long on  + short gap = 1
     - short on + long gap  = 0
     '''
+    transmitted = []
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(transmit_pin, GPIO.OUT)
     for code_name in codes:
         code = KNOWN_CODES[code_name]
         GPIO.output(transmit_pin, 0)
+        transmitted.append(code)
         time.sleep(TIMINGS['sleep'])
         for t in range(NUM_ATTEMPTS):
             print('#' + str(t) + ' attempt for "' + code + '"')
@@ -70,6 +72,7 @@ def transmit(codes, transmit_pin):
             GPIO.output(transmit_pin, 0)
             time.sleep(TIMINGS['sleep'])
     GPIO.cleanup()
+    return transmitted
 
 
 if __name__ == '__main__':
