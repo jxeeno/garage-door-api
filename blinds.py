@@ -1,9 +1,9 @@
 import time
 import sys
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
 NUM_ATTEMPTS = 12
-TRANSMIT_PIN = 12
+# TRANSMIT_PIN = 12
 
 KNOWN_CODES = {
     "up0": "SlLsLsSlLsSlSlSlSlSlLsSlLsSlSlLsLsLsLsLsLsLsSlLsSlSlSlSlSlSlSlSlSlSlSlLsSlSlSlL",
@@ -29,7 +29,7 @@ TIMINGS = {
 }
 
 
-def transmit(codes):
+def transmit(codes, transmit_pin):
     '''
     Transmits all codes received, assuming: 
     - each code starts with an extended init signal (`first_on` and `first_gap`)
@@ -40,34 +40,34 @@ def transmit(codes):
     GPIO.setup(TRANSMIT_PIN, GPIO.OUT)
     for code_name in codes:
         code = KNOWN_CODES[code_name]
-        GPIO.output(TRANSMIT_PIN, 0)
+        GPIO.output(transmit_pin, 0)
         time.sleep(TIMINGS['sleep'])
         for t in range(NUM_ATTEMPTS):
             print('#' + str(t) + ' attempt for "' + code + '"')
-            GPIO.output(TRANSMIT_PIN, 1)
+            GPIO.output(transmit_pin, 1)
             time.sleep(TIMINGS['first_on'])
-            GPIO.output(TRANSMIT_PIN, 0)
+            GPIO.output(transmit_pin, 0)
             time.sleep(TIMINGS['first_gap'])
             for i in code:
                 if i == 's':
-                    GPIO.output(TRANSMIT_PIN, 0)
+                    GPIO.output(transmit_pin, 0)
                     time.sleep(TIMINGS['short'])
                     # print(TIMINGS['short'])
                 elif i == 'l':
-                    GPIO.output(TRANSMIT_PIN, 0)
+                    GPIO.output(transmit_pin, 0)
                     time.sleep(TIMINGS['long'])
                     # print(TIMINGS['long'])
                 elif i == 'S':
-                    GPIO.output(TRANSMIT_PIN, 1)
+                    GPIO.output(transmit_pin, 1)
                     time.sleep(TIMINGS['short'])
                     # print(TIMINGS['short'])
                 elif i == 'L':
-                    GPIO.output(TRANSMIT_PIN, 1)
+                    GPIO.output(transmit_pin, 1)
                     time.sleep(TIMINGS['long'])
                     # print(TIMINGS['long'])
                 else:
                     continue
-            GPIO.output(TRANSMIT_PIN, 0)
+            GPIO.output(transmit_pin, 0)
             time.sleep(TIMINGS['sleep'])
     GPIO.cleanup()
 

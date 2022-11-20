@@ -69,6 +69,7 @@ def secplusapi():
 def blindsapi():
     args = request.args
     state = args.get("state")
+    pin = args.get("pin", default=26, type=int)
 
     response = {}
     acquired = False
@@ -77,7 +78,7 @@ def blindsapi():
         sem.acquire()
         acquired = True
 
-        blinds.transmit([state])
+        blinds.transmit([state], pin)
 
         response = {
             "state": state,
