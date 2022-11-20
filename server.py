@@ -66,7 +66,7 @@ def secplus():
 
 
 @app.route('/api/blinds')
-def secplus():
+def blinds():
     args = request.args
     state = args.get("state")
 
