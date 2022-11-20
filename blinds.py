@@ -1,6 +1,6 @@
 import time
 import sys
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 NUM_ATTEMPTS = 12
 # TRANSMIT_PIN = 12
