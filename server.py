@@ -7,13 +7,17 @@ sem = threading.Semaphore()
 
 app = Flask(__name__)
 
+@app.route('/api/status')
+def statusapi():
+    return {"status": "ok"}
+
 @app.route('/api/garage')
 def secplusapi():
     args = request.args
     fixed = args.get("fixed", default=0, type=int)
-    pin = args.get("pin", default=0, type=int)
+    pin = args.get("pin", default=26, type=int)
     rolling = args.get("rolling", default=0, type=int)
-    repeats = args.get("repeats", default=12, type=int)
+    repeats = args.get("repeats", default=6, type=int)
 
     response = {}
 
